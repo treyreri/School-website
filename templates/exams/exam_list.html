@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-header">
+        <h1>Рейтинговые экзамены</h1>
+        <p>Информация о предстоящих экзаменах</p>
+    </div>
+
+    <div class="exams-list">
+
+        {% for exam in object_list %}
+
+        <a
+            href="{% url 'main:exam-detail' exam.pk %}"
+            class="exam-card"
+        >
+
+            <div class="exam-date">
+                <strong>{{ exam.exam_date|date:"d" }}</strong>
+                <span>{{ exam.exam_date|date:"M" }}</span>
+            </div>
+
+            <div class="exam-info">
+
+                <h2>{{ exam.title }}</h2>
+
+                <p>
+                    Класс: {{ exam.school_class.name }}
+                </p>
+
+                {% if exam.description %}
+                    <p class="exam-description">
+                        {{ exam.description|truncatewords:18 }}
+                    </p>
+                {% endif %}
+
+            </div>
+
+            <span class="class-arrow">→</span>
+
+        </a>
+
+        {% empty %}
+
+            <div class="empty-state">
+                <h3>Экзаменов пока нет</h3>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

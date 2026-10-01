@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-header">
+        <h1>Новости</h1>
+        <p>Последние события нашего лицея</p>
+    </div>
+
+    <div class="news-grid">
+
+        {% for news in object_list %}
+
+        <article class="news-card">
+
+            {% if news.image %}
+
+                <img
+                    src="{{ news.image.url }}"
+                    alt="{{ news.title }}"
+                    class="news-image"
+                >
+
+            {% else %}
+
+                <div class="news-image-placeholder">
+                    Новости лицея
+                </div>
+
+            {% endif %}
+
+            <div class="news-card-content">
+
+                <span class="news-date">
+                    {{ news.created_at|date:"d.m.Y" }}
+                </span>
+
+                <h2>{{ news.title }}</h2>
+
+                <p>
+                    {{ news.content|truncatewords:25 }}
+                </p>
+
+                <a
+                    href="{% url 'main:news-detail' news.pk %}"
+                    class="text-link"
+                >
+                    Читать далее →
+                </a>
+
+            </div>
+
+        </article>
+
+        {% empty %}
+
+            <div class="empty-state">
+                <h3>Новостей пока нет</h3>
+                <p>Следите за обновлениями лицея.</p>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-header">
+        <h1>Учителя</h1>
+        <p>Преподаватели нашего лицея</p>
+    </div>
+
+    <div class="teachers-grid">
+
+        {% for teacher in object_list %}
+
+        <div class="teacher-card">
+
+            {% if teacher.photo %}
+                <img
+                    src="{{ teacher.photo.url }}"
+                    alt="{{ teacher.first_name }} {{ teacher.last_name }}"
+                    class="teacher-photo"
+                >
+            {% else %}
+                <div class="teacher-avatar">
+                    {{ teacher.first_name|first|upper }}
+                </div>
+            {% endif %}
+
+            <div class="teacher-card-content">
+
+                <h2>
+                    {{ teacher.first_name }}
+                    {{ teacher.last_name }}
+                </h2>
+
+                <p>
+                    Класс: {{ teacher.school_class.name }}
+                </p>
+
+                <p>
+                    ☎ {{ teacher.phone }}
+                </p>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+            <div class="empty-state">
+                <h3>Учителя пока не добавлены</h3>
+                <p>Информация появится здесь позже.</p>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

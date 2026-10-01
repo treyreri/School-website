@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-header">
+        <h1>Классы</h1>
+        <p>Классы нашего лицея</p>
+    </div>
+
+    <div class="classes-grid">
+
+        {% for class in object_list %}
+
+        <a
+            href="{% url 'main:class-detail' class.pk %}"
+            class="class-card"
+        >
+
+            <div class="class-icon">
+                {{ class.grade }}
+            </div>
+
+            <div>
+                <h2>{{ class.name }}</h2>
+
+                <p>
+                    {{ class.grade }} класс · {{ class.letter }}
+                </p>
+            </div>
+
+            <span class="class-arrow">→</span>
+
+        </a>
+
+        {% empty %}
+
+            <div class="empty-state">
+                <h3>Классы пока не добавлены</h3>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

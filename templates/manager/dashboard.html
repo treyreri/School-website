@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-header">
+        <h1>Панель менеджера</h1>
+        <p>Управление содержимым школьного сайта</p>
+    </div>
+
+    <div class="manager-grid">
+
+        <a href="{% url 'manager:news-create' %}" class="manager-card">
+            <span>01</span>
+            <h2>Новости</h2>
+            <p>Добавить новость</p>
+        </a>
+        <a href="{% url 'manager:school_information_edit' %}" class="manager-card">
+    <div class="manager-card-icon">🏫</div>
+
+    <div class="manager-card-content">
+        <h3>О школе</h3>
+        <p>Информация о лицее и контакты</p>
+    </div>
+
+    <span class="manager-card-arrow">→</span>
+</a>
+
+        <a href="{% url 'manager:class-create' %}" class="manager-card">
+            <span>02</span>
+            <h2>Классы</h2>
+            <p>Добавить класс</p>
+        </a>
+
+        <a href="{% url 'manager:student-create' %}" class="manager-card">
+            <span>03</span>
+            <h2>Ученики</h2>
+            <p>Добавить ученика</p>
+        </a>
+
+        <a href="{% url 'manager:teacher-create' %}" class="manager-card">
+            <span>04</span>
+            <h2>Учителя</h2>
+            <p>Добавить учителя</p>
+        </a>
+
+        <a href="{% url 'manager:schedule-create' %}" class="manager-card">
+            <span>05</span>
+            <h2>Расписание</h2>
+            <p>Добавить занятие</p>
+        </a>
+
+        <a href="{% url 'manager:exam-create' %}" class="manager-card">
+            <span>06</span>
+            <h2>Экзамены</h2>
+            <p>Добавить экзамен</p>
+        </a>
+
+        <a href="{% url 'manager:exam-file-create' %}" class="manager-card">
+            <span>07</span>
+            <h2>PDF</h2>
+            <p>Загрузить файл</p>
+        </a>
+
+        <a href="{% url 'manager:olympiad-create' %}" class="manager-card">
+            <span>08</span>
+            <h2>Олимпиады</h2>
+            <p>Добавить победителя</p>
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

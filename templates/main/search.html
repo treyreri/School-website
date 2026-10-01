@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Поиск{% endblock %}
+
+{% block content %}
+
+<h1>Поиск</h1>
+
+<form method="get">
+
+    <input
+        type="text"
+        name="q"
+        value="{{ request.GET.q }}"
+        placeholder="Введите запрос"
+    >
+
+    <button type="submit">
+        Найти
+    </button>
+
+</form>
+
+
+{% for item in results %}
+
+    <article>
+
+        <h2>
+            <a href="{% url 'main:news-detail' item.pk %}">
+                {{ item.title }}
+            </a>
+        </h2>
+
+        <p>
+            {{ item.content|truncatewords:25 }}
+        </p>
+
+    </article>
+
+{% empty %}
+
+    <p>Ничего не найдено.</p>
+
+{% endfor %}
+
+{% endblock %}

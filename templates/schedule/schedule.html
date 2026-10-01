@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-header">
+        <h1>Расписание</h1>
+        <p>Расписание занятий</p>
+    </div>
+
+
+    <!-- ФИЛЬТРЫ -->
+
+    <form method="get" class="schedule-filters">
+
+        <select name="class">
+            <option value="">Все классы</option>
+
+            {% for class in classes %}
+                <option
+                    value="{{ class.id }}"
+                    {% if request.GET.class == class.id|stringformat:"s" %}
+                        selected
+                    {% endif %}
+                >
+                    {{ class.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+
+        <select name="day">
+
+            <option value="">Все дни</option>
+
+            <option value="MONDAY"
+                {% if request.GET.day == "MONDAY" %}selected{% endif %}>
+                Понедельник
+            </option>
+
+            <option value="TUESDAY"
+                {% if request.GET.day == "TUESDAY" %}selected{% endif %}>
+                Вторник
+            </option>
+
+            <option value="WEDNESDAY"
+                {% if request.GET.day == "WEDNESDAY" %}selected{% endif %}>
+                Среда
+            </option>
+
+            <option value="THURSDAY"
+                {% if request.GET.day == "THURSDAY" %}selected{% endif %}>
+                Четверг
+            </option>
+
+            <option value="FRIDAY"
+                {% if request.GET.day == "FRIDAY" %}selected{% endif %}>
+                Пятница
+            </option>
+
+            <option value="SATURDAY"
+                {% if request.GET.day == "SATURDAY" %}selected{% endif %}>
+                Суббота
+            </option>
+
+        </select>
+
+
+        <button type="submit" class="button">
+            Показать
+        </button>
+
+    </form>
+
+
+    <!-- РАСПИСАНИЕ -->
+
+    <div class="schedule-groups">
+
+        {% regroup object_list by school_class as class_groups %}
+
+        {% for class_group in class_groups %}
+
+            <section class="schedule-class">
+
+                <div class="schedule-class-title">
+                    <h2>{{ class_group.grouper.name }}</h2>
+                </div>
+
+
+                {% regroup class_group.list by day as day_groups %}
+
+                {% for day_group in day_groups %}
+
+                    <div class="schedule-day">
+
+                        <h3>
+                            {{ day_group.list.0.get_day_display }}
+                        </h3>
+
+
+                        <div class="schedule-lessons">
+
+                            {% for item in day_group.list %}
+
+                                <div class="schedule-lesson">
+
+                                    <div class="lesson-number">
+                                        {{ item.lesson_number }}
+                                    </div>
+
+
+                                    <div class="lesson-info">
+
+                                        <div class="lesson-subject">
+                                            {{ item.subject }}
+                                        </div>
+
+                                        <div class="lesson-time">
+                                            {{ item.start_time|time:"H:i" }}
+                                            —
+                                            {{ item.end_time|time:"H:i" }}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </section>
+
+        {% empty %}
+
+            <div class="schedule-empty">
+                Расписание не найдено.
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

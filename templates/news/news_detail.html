@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <article class="news-detail">
+
+        {% if object.image %}
+            <img
+                src="{{ object.image.url }}"
+                alt="{{ object.title }}"
+                class="news-detail-image"
+            >
+        {% endif %}
+
+        <div class="news-detail-content">
+
+            <span class="news-date">
+                {{ object.created_at|date:"d.m.Y" }}
+            </span>
+
+            <h1>{{ object.title }}</h1>
+
+            <div class="news-text">
+                {{ object.content|linebreaks }}
+            </div>
+
+            <a
+                href="{% url 'main:news-list' %}"
+                class="back-link"
+            >
+                ← Все новости
+            </a>
+
+        </div>
+
+    </article>
+
+</div>
+
+{% endblock %}

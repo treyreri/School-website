@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-header">
+        <h1>Победители олимпиад</h1>
+        <p>Достижения учеников нашего лицея</p>
+    </div>
+
+    <div class="winners-grid">
+
+        {% for winner in object_list %}
+
+        <article class="winner-card">
+
+            {% if winner.photo %}
+
+                <img
+                    src="{{ winner.photo.url }}"
+                    alt="{{ winner.first_name }} {{ winner.last_name }}"
+                    class="winner-photo"
+                >
+
+            {% else %}
+
+                <div class="winner-avatar">
+                    {{ winner.first_name|first|upper }}
+                </div>
+
+            {% endif %}
+
+            <div class="winner-content">
+
+                <span class="winner-place">
+                    {{ winner.place }} место
+                </span>
+
+                <h2>
+                    {{ winner.first_name }}
+                    {{ winner.last_name }}
+                </h2>
+
+                <p class="winner-class">
+                    {{ winner.school_class.name }}
+                </p>
+
+                <p>
+                    <strong>{{ winner.olympiad_name }}</strong>
+                </p>
+
+                <p class="winner-subject">
+                    {{ winner.subject }} · {{ winner.year }}
+                </p>
+
+                {% if winner.description %}
+                    <p class="winner-description">
+                        {{ winner.description|truncatewords:20 }}
+                    </p>
+                {% endif %}
+
+            </div>
+
+        </article>
+
+        {% empty %}
+
+            <div class="empty-state">
+                <h3>Победителей пока нет</h3>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

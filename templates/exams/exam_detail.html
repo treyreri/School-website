@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="detail-card">
+
+        <div class="detail-header">
+
+            <span class="detail-label">
+                Рейтинговый экзамен
+            </span>
+
+            <h1>{{ object.title }}</h1>
+
+            <p>
+                Класс: {{ object.school_class.name }}
+            </p>
+
+            <p>
+                Дата: {{ object.exam_date|date:"d.m.Y" }}
+            </p>
+
+        </div>
+
+        {% if object.description %}
+
+            <div class="detail-content">
+                {{ object.description|linebreaks }}
+            </div>
+
+        {% endif %}
+
+
+        {% if object.files.all %}
+
+            <div class="pdf-section">
+
+                <h2>Материалы экзамена</h2>
+
+                {% for file in object.files.all %}
+
+                    <div class="pdf-card">
+
+                        <div>
+                            <strong>{{ file.title }}</strong>
+                            <p>PDF-файл</p>
+                        </div>
+
+                        <a
+                            href="{% url 'main:exam-file-download' file.pk %}"
+                            class="button"
+                        >
+                            Скачать PDF
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

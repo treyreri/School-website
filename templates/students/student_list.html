@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-header">
+        <h1>Ученики</h1>
+        <p>Ученики нашего лицея</p>
+    </div>
+
+    <div class="students-grid">
+
+        {% for student in object_list %}
+
+        <div class="student-card">
+
+            {% if student.photo %}
+                <img
+                    src="{{ student.photo.url }}"
+                    alt="{{ student.first_name }} {{ student.last_name }}"
+                    class="student-photo"
+                >
+            {% else %}
+                <div class="student-avatar">
+                    {{ student.first_name|first|upper }}
+                </div>
+            {% endif %}
+
+            <div>
+                <h2>
+                    {{ student.first_name }}
+                    {{ student.last_name }}
+                </h2>
+
+                <p>
+                    {{ student.school_class.name }}
+                </p>
+            </div>
+
+        </div>
+
+        {% empty %}
+
+            <div class="empty-state">
+                <h3>Ученики пока не добавлены</h3>
+                <p>Информация появится здесь позже.</p>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

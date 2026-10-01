@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-container">
+
+    {% if school %}
+
+    <div class="about-card">
+
+        {% if school.image %}
+            <img
+                src="{{ school.image.url }}"
+                alt="{{ school.title }}"
+                class="about-image"
+            >
+        {% endif %}
+
+        <div class="about-content">
+
+            <span class="detail-label">
+                О школе
+            </span>
+
+            <h1>{{ school.title }}</h1>
+
+            <div class="about-description">
+                {{ school.description|linebreaks }}
+            </div>
+
+            <div class="contact-list">
+
+                <div class="contact-item">
+                    <strong>Адрес</strong>
+                    <span>{{ school.address }}</span>
+                </div>
+
+                <div class="contact-item">
+                    <strong>Телефон</strong>
+                    <span>{{ school.phone }}</span>
+                </div>
+
+                <div class="contact-item">
+                    <strong>Email</strong>
+                    <span>{{ school.email }}</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% else %}
+
+        <div class="empty-state">
+            <h3>Информация о школе пока не добавлена.</h3>
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-content">
+
+        <span class="hero-label">
+            ТАДЖИКСКО-РУССКИЙ ЛИЦЕЙ-ИНТЕРНАТ
+        </span>
+
+        <h1>«Хотам и ПВ»</h1>
+
+        <p>
+            Место, где знания превращаются в возможности
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="{% url 'main:about' %}" class="hero-button primary">
+                О школе
+            </a>
+
+            <a href="{% url 'main:schedule' %}" class="hero-button secondary">
+                Расписание
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="home-section">
+
+    <div class="section-heading">
+
+        <span>НАШ ЛИЦЕЙ</span>
+
+        <h2>Образование и развитие</h2>
+
+        <p>
+            Узнайте больше о школе, учениках, учителях,
+            расписании и важных событиях лицея.
+        </p>
+
+    </div>
+
+
+    <div class="home-cards">
+
+        <!-- Классы -->
+        <a href="{% url 'main:class-list' %}" class="home-card">
+
+            <div class="home-card-icon">
+                📘
+            </div>
+
+            <h3>Классы</h3>
+
+            <p>
+                Информация о классах и учениках
+            </p>
+
+            <span class="home-card-arrow">
+                →
+            </span>
+
+        </a>
+
+
+        <!-- Учителя -->
+        <a href="{% url 'main:teacher-list' %}" class="home-card">
+
+            <div class="home-card-icon">
+                📘
+            </div>
+
+            <h3>Учителя</h3>
+
+            <p>
+                Наши преподаватели
+            </p>
+
+            <span class="home-card-arrow">
+                →
+            </span>
+
+        </a>
+
+
+        <!-- Расписание -->
+        <a href="{% url 'main:schedule' %}" class="home-card">
+
+            <div class="home-card-icon">
+                📘
+            </div>
+
+            <h3>Расписание</h3>
+
+            <p>
+                Расписание занятий
+            </p>
+
+            <span class="home-card-arrow">
+                →
+            </span>
+
+        </a>
+
+
+        <!-- Новости -->
+        <a href="{% url 'main:news-list' %}" class="home-card">
+
+            <div class="home-card-icon">
+                📘
+            </div>
+
+            <h3>Новости</h3>
+
+            <p>
+                Последние события лицея
+            </p>
+
+            <span class="home-card-arrow">
+                →
+            </span>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<section class="home-info">
+
+    <div class="home-info-content">
+
+        <span class="detail-label">
+            ТАДЖИКСКО-РУССКИЙ ЛИЦЕЙ-ИНТЕРНАТ
+        </span>
+
+        <h2>
+            Всё необходимое<br>
+            в одном месте
+        </h2>
+
+        <p>
+            На сайте лицея родители и ученики могут
+            посмотреть расписание, узнать о классах,
+            познакомиться с учителями и следить
+            за новостями школы.
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}
