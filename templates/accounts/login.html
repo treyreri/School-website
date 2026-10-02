@@ -11,17 +11,29 @@
             <p>Войдите в личный кабинет</p>
         </div>
 
-        <form method="post">
+        <form method="post" action="{% url 'accounts:login' %}">
 
-            {% csrf_token %}
+    {% csrf_token %}
 
-            {{ form.as_p }}
+    {{ form.non_field_errors }}
 
-            <button type="submit" class="button auth-button">
-                Войти
-            </button>
+    <p>
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {{ form.username.errors }}
+    </p>
 
-        </form>
+    <p>
+        {{ form.password.label_tag }}
+        {{ form.password }}
+        {{ form.password.errors }}
+    </p>
+
+    <button type="submit" class="button auth-button">
+        Войти
+    </button>
+
+</form>
 
         <p class="auth-footer">
             Нет аккаунта?

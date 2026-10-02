@@ -1,14 +1,10 @@
-
-
 {% load static %}
 
 <!DOCTYPE html>
 <html lang="ru">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
@@ -28,183 +24,54 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     {% block extra_css %}{% endblock %}
-
 </head>
-
 
 <body>
 
-    <!-- =========================
-         HEADER
-         ========================= -->
+<header class="main-header">
+    <nav class="main-navbar">
+        <div class="navbar-container">
 
-    <header class="main-header">
+            <!-- ЛОГОТИП -->
+            <a href="{% url 'main:home' %}" class="navbar-logo">
+                <span class="navbar-logo-title">
+                    Хотам и ПВ
+                </span>
 
-        <nav class="main-navbar">
-
-            <div class="navbar-container">
-
-
-                <!-- ЛОГОТИП -->
-
-                <a href="{% url 'main:home' %}" class="navbar-logo">
-
-                    <span class="navbar-logo-title">
-                        Хотам и ПВ
-                    </span>
-
-                    <span class="navbar-logo-subtitle">
-                        Лицей-интернат
-                    </span>
-
-                </a>
-
-
-                <!-- ОСНОВНАЯ НАВИГАЦИЯ -->
-
-                <div class="navbar-links">
-
-
-
-                    <a href="{% url 'main:class-list' %}"
-                       class="navbar-link">
-                        Классы
-                    </a>
-                    
-                    <a href="{% url 'main:news-list' %}"
-       class="navbar-link">
-        Новости
-    </a>
-
-                    <a href="{% url 'main:olympiads' %}"
-                       class="navbar-link">
-                        Олимпиады
-                    </a>
-
-
-                    <a href="{% url 'main:exam-list' %}"
-                       class="navbar-link">
-                        Экзамены
-                    </a>
-
-                    <a href="{% url 'main:teacher-list' %}"
-                       class="navbar-link">
-                        Учителя
-                    </a>
-
-                </div>
-
-
-                <!-- ЛИЧНЫЙ КАБИНЕТ -->
-                <div class="navbar-account">
-
-    {% if user.is_authenticated %}
-
-        {% if user.is_superuser or user.role == 'MANAGER' %}
-
-            <a href="{% url 'manager:dashboard' %}" class="manager-button">
-                Панель менеджера
+                <span class="navbar-logo-subtitle">
+                    Лицей-интернат
+                </span>
             </a>
 
-        {% endif %}
 
-        <a href="{% url 'accounts:profile' %}" class="account-button">
-            Личный кабинет
-        </a>
+            <!-- ОСНОВНАЯ НАВИГАЦИЯ -->
+            <div class="navbar-links">
 
-        <form method="post"
-              action="{% url 'accounts:logout' %}"
-              class="navbar-logout-form">
-
-            {% csrf_token %}
-
-            <button type="submit" class="navbar-logout-button">
-                Выйти
-            </button>
-
-        </form>
-
-    {% else %}
-
-        <a href="{% url 'accounts:login' %}" class="navbar-login-button">
-            Войти
-        </a>
-
-        <a href="{% url 'accounts:register' %}" class="navbar-register-button">
-            Регистрация
-        </a>
-
-    {% endif %}
-
-</div>
-
-            </div>
-
-        </nav>
-
-    </header>
-
-
-
-    <!-- =========================
-         ОСНОВНОЙ КОНТЕНТ
-         ========================= -->
-
-    <main class="main-content">
-
-        {% block content %}
-        {% endblock %}
-
-    </main>
-
-
-
-    <!-- =========================
-         FOOTER
-         ========================= -->
-
-    <footer class="main-footer">
-
-        <div class="footer-container">
-
-
-            <!-- О ШКОЛЕ -->
-
-            <div class="footer-column">
-
-                <h3>
-                    Хотам и ПВ
-                </h3>
-
-                <p>
-                    Таджикско-русский
-                    лицей-интернат
-                </p>
-
-            </div>
-
-
-            <!-- НАВИГАЦИЯ -->
-
-            <div class="footer-column">
-
-                <h3>
-                    Навигация
-                </h3>
-
-                <a href="{% url 'main:teacher-list' %}">
-                    Учителя
+                <a href="{% url 'main:about' %}" class="navbar-link">
+                    О школе
                 </a>
 
-                <a href="{% url 'main:class-list' %}">
+                <a href="{% url 'main:class-list' %}" class="navbar-link">
                     Классы
                 </a>
 
-                <a href="{% url 'main:olympiads' %}">
-                    Олимпиада
+                <a href="{% url 'main:teacher-list' %}" class="navbar-link">
+                    Учителя
                 </a>
 
-                <a href="{% url 'main:exam-list' %}">
+                <a href="{% url 'main:news-list' %}" class="navbar-link">
+                    Новости
+                </a>
+
+                <a href="{% url 'main:schedule' %}" class="navbar-link">
+                    Расписание
+                </a>
+
+                <a href="{% url 'main:olympiads' %}" class="navbar-link">
+                    Олимпиады
+                </a>
+
+                <a href="{% url 'main:exam-list' %}" class="navbar-link">
                     Экзамены
                 </a>
 
@@ -212,42 +79,54 @@
 
 
             <!-- ЛИЧНЫЙ КАБИНЕТ -->
-
-            <div class="footer-column">
-
-                <h3>
-                    Аккаунт
-                </h3>
+            <div class="navbar-account">
 
                 {% if user.is_authenticated %}
 
-                    <a href="{% url 'accounts:profile' %}">
+                    {% if user.is_superuser or user.role == 'MANAGER' %}
+                        <a
+                            href="{% url 'manager:dashboard' %}"
+                            class="manager-button"
+                        >
+                            Панель менеджера
+                        </a>
+                    {% endif %}
+
+                    <a
+                        href="{% url 'accounts:profile' %}"
+                        class="account-button"
+                    >
                         Личный кабинет
                     </a>
 
-                    <form method="post"
-                          action="{% url 'accounts:logout' %}"
-                          class="logout-form">
-
+                    <form
+                        method="post"
+                        action="{% url 'accounts:logout' %}"
+                        class="navbar-logout-form"
+                    >
                         {% csrf_token %}
 
-                        <button type="submit"
-                                class="logout-button">
-
-                            <span>↪</span>
+                        <button
+                            type="submit"
+                            class="navbar-logout-button"
+                        >
                             Выйти
-
                         </button>
-
                     </form>
 
                 {% else %}
 
-                    <a href="{% url 'accounts:login' %}">
+                    <a
+                        href="{% url 'accounts:login' %}"
+                        class="navbar-login-button"
+                    >
                         Войти
                     </a>
 
-                    <a href="{% url 'accounts:register' %}">
+                    <a
+                        href="{% url 'accounts:register' %}"
+                        class="navbar-register-button"
+                    >
                         Регистрация
                     </a>
 
@@ -256,29 +135,137 @@
             </div>
 
         </div>
+    </nav>
+</header>
 
 
-        <div class="footer-bottom">
+<!-- ОСНОВНОЙ КОНТЕНТ -->
+<main class="main-content">
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+
+<!-- FOOTER -->
+<footer class="main-footer">
+
+    <div class="footer-container">
+
+        <!-- О ШКОЛЕ -->
+        <div class="footer-column">
+
+            <h3>
+                Хотам и ПВ
+            </h3>
 
             <p>
-                © {% now "Y" %} Таджикско-русский
-                лицей-интернат «Хотам и ПВ»
+                Таджикско-русский
+                лицей-интернат
             </p>
 
         </div>
 
-    </footer>
+
+        <!-- НАВИГАЦИЯ -->
+        <div class="footer-column">
+
+            <h3>
+                Навигация
+            </h3>
 
 
+            <a href="{% url 'main:teacher-list' %}">
+                Учителя
+            </a>
 
-    <!-- =========================
-         JAVASCRIPT
-         ========================= -->
+            <a href="{% url 'main:class-list' %}">
+                Классы
+            </a>
 
-    <script src="{% static 'js/main.js' %}"></script>
+            <a href="{% url 'main:news-list' %}">
+                Новости
+            </a>
 
-    {% block extra_js %}{% endblock %}
+            <a href="{% url 'main:schedule' %}">
+                Расписание
+            </a>
+
+            <a href="{% url 'main:olympiads' %}">
+                Олимпиады
+            </a>
+
+            <a href="{% url 'main:exam-list' %}">
+                Экзамены
+            </a>
+
+        </div>
+
+
+        <!-- ЛИЧНЫЙ КАБИНЕТ -->
+        <div class="footer-column">
+
+            <h3>
+                Аккаунт
+            </h3>
+
+            {% if user.is_authenticated %}
+
+                <a href="{% url 'accounts:profile' %}">
+                    Личный кабинет
+                </a>
+
+                <form
+                    method="post"
+                    action="{% url 'accounts:logout' %}"
+                    class="logout-form"
+                >
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="logout-button"
+                    >
+                        <span>↪</span>
+                        Выйти
+                    </button>
+                </form>
+
+            {% else %}
+
+                <a href="{% url 'accounts:login' %}">
+                    Войти
+                </a>
+
+                <a href="{% url 'accounts:register' %}">
+                    Регистрация
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <p>
+            © {% now "Y" %} Таджикско-русский
+            лицей-интернат «Хотам и ПВ»
+        </p>
+
+    </div>
+
+</footer>
+
+
+<!-- JAVASCRIPT -->
+<script src="{% static 'js/main.js' %}"></script>
+
+{% block extra_js %}
+{% endblock %}
 
 </body>
-
 </html>

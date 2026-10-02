@@ -1,9 +1,8 @@
 from django.contrib.auth import login
-from django.shortcuts import redirect
-from django.views.generic import CreateView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, TemplateView
+
 from .forms import RegisterForm
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
 
 
 class RegisterView(CreateView):
@@ -16,8 +15,8 @@ class RegisterView(CreateView):
         return response
 
     def get_success_url(self):
-        return '/profile/'  
+        return reverse_lazy('accounts:profile')
 
 
-class ProfileView(LoginRequiredMixin, TemplateView):
+class ProfileView(TemplateView):
     template_name = 'accounts/profile.html'

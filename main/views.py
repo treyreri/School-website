@@ -1,9 +1,23 @@
-from django.views.generic import TemplateView
-from django.views.generic import ListView, DetailView
-from .models import Class
-from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Student, Teacher, News, Exam
-from .models import Schedule, OlympiadWinner
+from pathlib import Path
+
+from django.db.models import Q
+from django.http import FileResponse
+from django.shortcuts import get_object_or_404
+from django.views import View
+from django.views.generic import TemplateView, ListView, DetailView
+
+from .models import (
+    Class,
+    Student,
+    Teacher,
+    News,
+    Schedule,
+    Exam,
+    ExamFile,
+    OlympiadWinner,
+    SchoolInformation,
+)
+
 
 class HomeView(TemplateView):
     template_name = 'main/home.html'
@@ -11,6 +25,12 @@ class HomeView(TemplateView):
 
 class AboutView(TemplateView):
     template_name = 'main/about.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['school'] = SchoolInformation.objects.first()
+        return context
+
 
 class ClassListView(ListView):
     model = Class
@@ -26,7 +46,8 @@ class ClassDetailView(DetailView):
     def get_queryset(self):
         return Class.objects.prefetch_related('students')
 
-class StudentListView(LoginRequiredMixin, ListView):
+
+class StudentListView(ListView):
     model = Student
     template_name = 'students/student_list.html'
     context_object_name = 'students'
@@ -36,7 +57,6 @@ class TeacherListView(ListView):
     model = Teacher
     template_name = 'teachers/teacher_list.html'
     context_object_name = 'teachers'
-
 
 
 class ScheduleListView(ListView):
@@ -64,10 +84,8 @@ class ScheduleListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         context['classes'] = Class.objects.all()
         context['days'] = Schedule.Day.choices
-
         return context
 
 
@@ -85,48 +103,38 @@ class NewsDetailView(DetailView):
     template_name = 'news/news_detail.html'
     context_object_name = 'news'
 
-class ExamListView(LoginRequiredMixin, ListView):
+
+class ExamListView(ListView):
     model = Exam
     template_name = 'exams/exam_list.html'
     context_object_name = 'exams'
 
     def get_queryset(self):
-        return Exam.objects.select_related('school_class').order_by(
-            'exam_date'
-        )
+        return Exam.objects.select_related(
+            'school_class'
+        ).order_by('exam_date')
 
 
-class ExamDetailView(LoginRequiredMixin, DetailView):
+class ExamDetailView(DetailView):
     model = Exam
     template_name = 'exams/exam_detail.html'
     context_object_name = 'exam'
 
 
-from django.http import FileResponse
-from django.views import View
-from django.shortcuts import get_object_or_404
-from .models import ExamFile
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.validators import FileExtensionValidator
-
-from pathlib import Path
-from django.http import FileResponse
-from django.views import View
-from django.shortcuts import get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
-
-class ExamFileDownloadView(LoginRequiredMixin, View):
+class ExamFileDownloadView(View):
     def get(self, request, pk):
         exam_file = get_object_or_404(ExamFile, pk=pk)
 
-        file_path = exam_file.pdf_file.path
-        original_name = Path(exam_file.pdf_file.name).name
+        original_name = Path(
+            exam_file.pdf_file.name
+        ).name
 
         return FileResponse(
             exam_file.pdf_file.open('rb'),
             as_attachment=True,
             filename=original_name,
         )
+
 
 class OlympiadWinnerListView(ListView):
     model = OlympiadWinner
@@ -138,20 +146,13 @@ class OlympiadWinnerListView(ListView):
             'school_class'
         ).order_by('-year', 'place')
 
-from .models import SchoolInformation
 
-class AboutView(TemplateView):
-    template_name = 'main/about.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        context['school'] = SchoolInformation.objects.first()
-
-        return context
+class OlympiadWinnerDetailView(DetailView):
+    model = OlympiadWinner
+    template_name = 'olympiads/winner_detail.html'
+    context_object_name = 'winner'
 
 
-from django.db.models import Q
 class SearchView(ListView):
     template_name = 'main/search.html'
     context_object_name = 'results'
@@ -163,8 +164,3 @@ class SearchView(ListView):
             Q(title__icontains=query) |
             Q(content__icontains=query)
         )
-
-class OlympiadWinnerDetailView(DetailView):
-    model = OlympiadWinner
-    template_name = 'olympiads/winner_detail.html'
-    context_object_name = 'winner'
