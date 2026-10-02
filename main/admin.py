@@ -9,8 +9,7 @@ from .models import (
     Exam,
     ExamFile,
     OlympiadWinner,
-    SchoolInformation,
-)
+    SchoolInformation, )
 
 
 admin.site.register(Class)
@@ -19,6 +18,7 @@ admin.site.register(Teacher)
 admin.site.register(News)
 
 
+#schedule
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
 
@@ -28,26 +28,32 @@ class ScheduleAdmin(admin.ModelAdmin):
         'lesson_number',
         'subject',
         'start_time',
-        'end_time',
-    )
+        'end_time',)
 
-    list_filter = (
-        'school_class',
-        'day',
-    )
-
-    search_fields = (
-        'subject',
-    )
+    list_filter = ( 'school_class', 'day', )
+    search_fields = ( 'subject',)
 
     ordering = (
         'school_class',
         'day',
-        'lesson_number',
-    )
+        'lesson_number',)
 
 
-admin.site.register(Exam)
-admin.site.register(ExamFile)
+#exams
+
+class ExamFileInline(admin.TabularInline):
+    model = ExamFile
+    extra = 1
+    fields = ( 'title', 'pdf_file', )
+
+
+@admin.register(Exam)
+class ExamAdmin(admin.ModelAdmin):
+    list_display = ( 'title', 'school_class', 'exam_date', )
+    list_filter = (  'school_class', 'exam_date',)
+    search_fields = ('title', 'description',)
+    inlines = ( ExamFileInline,)
+
+
 admin.site.register(OlympiadWinner)
 admin.site.register(SchoolInformation)

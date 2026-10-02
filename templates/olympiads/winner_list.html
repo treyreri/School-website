@@ -9,6 +9,7 @@
         <p>Достижения учеников нашего лицея</p>
     </div>
 
+
     <div class="winners-grid">
 
         {% for winner in object_list %}
@@ -31,34 +32,50 @@
 
             {% endif %}
 
+
             <div class="winner-content">
 
                 <span class="winner-place">
                     {{ winner.place }} место
                 </span>
 
+
                 <h2>
                     {{ winner.first_name }}
                     {{ winner.last_name }}
                 </h2>
 
+
                 <p class="winner-class">
                     {{ winner.school_class.name }}
                 </p>
+
 
                 <p>
                     <strong>{{ winner.olympiad_name }}</strong>
                 </p>
 
+
                 <p class="winner-subject">
                     {{ winner.subject }} · {{ winner.year }}
                 </p>
 
+
                 {% if winner.description %}
+
                     <p class="winner-description">
                         {{ winner.description|truncatewords:20 }}
                     </p>
+
                 {% endif %}
+
+
+                <a
+                    href="{% url 'main:olympiad-detail' winner.pk %}"
+                    class="winner-detail-button"
+                >
+                    Подробнее →
+                </a>
 
             </div>
 

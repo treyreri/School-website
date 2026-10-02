@@ -3,39 +3,24 @@ from django.views.generic import TemplateView
 from .mixins import ManagerRequiredMixin
 
 
-class ManagerDashboardView(
-    ManagerRequiredMixin,
-    TemplateView
-):
+class ManagerDashboardView(ManagerRequiredMixin, TemplateView):
     template_name = 'manager/dashboard.html'
 
 from django.urls import reverse_lazy
-from django.views.generic import (
-    CreateView,
-    UpdateView,
-    DeleteView,
-)
+from django.views.generic import ( CreateView, UpdateView, DeleteView,)
 
 from main.models import News
 
 class NewsCreateView(ManagerRequiredMixin, CreateView):
     model = News
-    fields = [
-        'title',
-        'content',
-        'image',
-    ]
+    fields = ['title', 'content', 'image', ]
     template_name = 'manager/form.html'
     success_url = reverse_lazy('main:news-list')
 
 
 class NewsUpdateView(ManagerRequiredMixin, UpdateView):
     model = News
-    fields = [
-        'title',
-        'content',
-        'image',
-    ]
+    fields = ['title', 'content', 'image', ]
     template_name = 'manager/form.html'
     success_url = reverse_lazy('main:news-list')
 
@@ -200,8 +185,7 @@ class SchoolInformationUpdateView(ManagerRequiredMixin, UpdateView):
         'address',
         'phone',
         'email',
-        'image',
-    ]
+        'image', ]
     template_name = 'manager/form.html'
     success_url = reverse_lazy('main:about')
 

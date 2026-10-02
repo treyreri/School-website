@@ -1,9 +1,7 @@
 from django.contrib.auth import login
 from django.shortcuts import redirect
 from django.views.generic import CreateView
-
 from .forms import RegisterForm
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 

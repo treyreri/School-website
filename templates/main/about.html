@@ -8,15 +8,25 @@
 
     <div class="about-card">
 
-        {% if school.image %}
-            <img
-                src="{{ school.image.url }}"
-                alt="{{ school.title }}"
-                class="about-image"
-            >
-        {% endif %}
+    {% if school.image %}
+       <img
+    src="{{ school.image.url }}"
+    alt="{{ school.title }}"
+    class="about-image"
+    style="
+    display: block;
+    width: 70%;
+    height: 350px;
+    margin: 15px auto;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+    filter: brightness(0.92);
+"
+>
+    {% endif %}
 
-        <div class="about-content">
+    <div class="about-content">
 
             <span class="detail-label">
                 О школе

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-header">
+        <a href="{% url 'main:olympiads' %}" class="back-link">
+            ← Все победители
+        </a>
+    </div>
+
+    <div class="winner-detail-card">
+
+        <!-- ФОТО -->
+        {% if winner.photo %}
+    <div style="
+        width: 680px;
+        height: 450px;
+        flex: 0 0 680px;
+        overflow: hidden;
+        border-radius: 12px;
+    ">
+        <img
+            src="{{ winner.photo.url }}"
+            alt="{{ winner.first_name }} {{ winner.last_name }}"
+            style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            "
+        >
+    </div>
+{% endif %}
+
+
+        <!-- ИНФОРМАЦИЯ -->
+        <div class="winner-detail-content">
+
+            <span class="winner-place">
+                {{ winner.place }} место
+            </span>
+
+            <h1>
+                {{ winner.first_name }} {{ winner.last_name }}
+            </h1>
+
+            <div class="winner-detail-info">
+
+                <div class="winner-info-item">
+                    <span>Олимпиада</span>
+                    <strong>{{ winner.olympiad_name }}</strong>
+                </div>
+
+                <div class="winner-info-item">
+                    <span>Предмет</span>
+                    <strong>{{ winner.subject }}</strong>
+                </div>
+
+                <div class="winner-info-item">
+                    <span>Класс</span>
+                    <strong>{{ winner.school_class.name }}</strong>
+                </div>
+
+                <div class="winner-info-item">
+                    <span>Год</span>
+                    <strong>{{ winner.year }}</strong>
+                </div>
+
+            </div>
+
+
+            {% if winner.description %}
+
+                <div class="winner-detail-description">
+
+                    <h2>О достижении</h2>
+
+                    {{ winner.description|linebreaks }}
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

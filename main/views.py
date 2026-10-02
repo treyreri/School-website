@@ -107,19 +107,25 @@ from django.views import View
 from django.shortcuts import get_object_or_404
 from .models import ExamFile
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.validators import FileExtensionValidator
+
+from pathlib import Path
+from django.http import FileResponse
+from django.views import View
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class ExamFileDownloadView(LoginRequiredMixin, View):
-
     def get(self, request, pk):
-        exam_file = get_object_or_404(
-            ExamFile,
-            pk=pk,
-        )
+        exam_file = get_object_or_404(ExamFile, pk=pk)
+
+        file_path = exam_file.pdf_file.path
+        original_name = Path(exam_file.pdf_file.name).name
 
         return FileResponse(
             exam_file.pdf_file.open('rb'),
             as_attachment=True,
-            filename=exam_file.title,
+            filename=original_name,
         )
 
 class OlympiadWinnerListView(ListView):
@@ -157,3 +163,8 @@ class SearchView(ListView):
             Q(title__icontains=query) |
             Q(content__icontains=query)
         )
+
+class OlympiadWinnerDetailView(DetailView):
+    model = OlympiadWinner
+    template_name = 'olympiads/winner_detail.html'
+    context_object_name = 'winner'
